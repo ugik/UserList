@@ -1,7 +1,16 @@
 UserList::Application.routes.draw do
+  get "challenges/index"
+
+  get "challenges/show"
+
+  get "challenge/index"
+
+  get "challenge/show"
+
   get "users/index"
 
   resources :users
+  resources :challenges
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

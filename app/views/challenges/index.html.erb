@@ -1,0 +1,17 @@
+<h3>Listing challenges</h3>
+
+<table>
+  <tr>
+    <th>League ID</th>
+    <th>Name</th>
+    <th></th>
+  </tr>
+
+<% @challenges.each do |challenge| %>
+  <tr>
+    <td><%= challenge.league_id %></td>
+    <td><%= challenge.name %></td>
+    <td><%= link_to 'Show', challenge %></td>
+  </tr>
+<% end %>
+</table>
