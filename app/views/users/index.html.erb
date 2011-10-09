@@ -4,13 +4,16 @@
   <tr>
     <th>Name</th>
     <th>Email</th>
-    <th></th>
+    <th>Company</th>
+    <th>League ID</th>
   </tr>
 
 <% @users.each do |user| %>
   <tr>
-    <td><%= user.name %></td>
+    <td><%= link_to user.name, edit_user_path(user) %></td>
     <td><%= user.email %></td>
+    <td><%= user.company_name %></td>
+    <td><%= user.league_id %></td>
     <td><%= link_to 'Show', user %></td>
   </tr>
 <% end %>

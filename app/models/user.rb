@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
-  self.abstract_class = true
-  establish_connection :remote_db_connection
 
+  has_many :challenges, :foreign_key => "league_id"
+
+  attr_accessible :name, :email, :company_name, :league_id
+  
 end
