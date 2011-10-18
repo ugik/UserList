@@ -1,16 +1,10 @@
 UserList::Application.routes.draw do
-  get "challenges/index"
 
-  get "challenges/show"
-
-  get "challenge/index"
-
-  get "challenge/show"
-
-  get "users/index"
-
-  resources :users
+  resources :admins
   resources :challenges
+  resources :teams
+  resources :users
+  resources :scores
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -53,9 +47,9 @@ UserList::Application.routes.draw do
   #   end
 
   # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
+  #   namespace :user do
+  #     # Directs /user/products/* to Admin::ProductsController
+  #     # (app/controllers/user/products_controller.rb)
   #     resources :products
   #   end
 

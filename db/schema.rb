@@ -10,30 +10,40 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111007211350) do
+ActiveRecord::Schema.define(:version => 20111010024324) do
 
-  create_table "challenges", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "comments", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "users", :force => true do |t|
+  create_table "admins", :force => true do |t|
     t.string   "name"
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "encrypted_password"
     t.string   "salt"
-    t.boolean  "admin",              :default => false
+    t.boolean  "administrator",      :default => false
     t.string   "company_name"
     t.integer  "league_id"
   end
 
-  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "admins", ["email"], :name => "index_admins_on_email", :unique => true
+
+  create_table "scores", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "team_user_associations", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "teams", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

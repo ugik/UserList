@@ -8,6 +8,10 @@ gem 'rails', '3.1.0'
 gem 'sqlite3'
 gem 'mysql2'
 
+group :development do
+  gem 'faker', '0.3.1'
+end
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

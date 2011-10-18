@@ -1,34 +1,35 @@
-class UsersController < ApplicationController
+class AdminsController < ApplicationController
 
   def index
-    @users = User.all
+    @admins = Admin.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @users }
+      format.json { render :json => @admins }
     end
   end
 
   def show
-    @user = User.find(params[:id])
+    @admin = Admin.find(params[:id])
+    @challenges = @admin.challenges
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @user }
+      format.json { render :json => @admin }
     end
   end
 
   def edit
-    @user = User.find(params[:id])
-    @title = "Edit user #{@user.name}"
+    @admin = Admin.find(params[:id])
+    @title = "Edit admin #{@admin.name}"
   end
 
   def update
-    @user = User.find(params[:id])
-    if @user.update_attributes(params[:user])
-      redirect_to @user
+    @admin = Admin.find(params[:id])
+    if @admin.update_attributes(params[:admin])
+      redirect_to @admin
     else
-      @title = "Edit user"
+      @title = "Edit admin"
       render 'edit'
     end
   end
