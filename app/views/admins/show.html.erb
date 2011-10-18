@@ -1,0 +1,11 @@
+<p>
+  <b>Name:</b>
+  <%= @admin.name %><b> Email:</b>  <%= @admin.email %><br>
+  <b>Company:</b>  <%= @admin.company_name %>  <b>League ID:</b>  <%= @admin.league_id %>
+</p>
+<% unless @admin.challenges.empty? %>
+  <b>Challenges</b>
+  <table class="challenges" summary="league challenges">
+  <%= render @challenges %>
+  </table>
+<% end %>

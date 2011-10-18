@@ -1,0 +1,26 @@
+<tr>
+  <td class="challenge">
+    <span class="content"><%= challenge.name %></span>
+  </td>
+  <td><strong>Start:</strong><%= challenge.activation_date %></td>
+  <% unless challenge.eligible_members == nil %>
+     <td><strong>Eligible:</strong><%= challenge.eligible_members %></td>
+  <% end %>
+  <% unless challenge.teams.empty? %>
+
+  <% @users_on_teams = 0
+     @top_teams = []
+     @top_teams = challenge.top_teams %>
+
+	  <td><strong>Registered:</strong><%= @admin.num_users_registered %></td>
+
+	  <td><strong>Teams:</strong><%= challenge.num_teams %> </td>
+
+	  <% challenge.top_teams.take(5).each { |t| 		# top 5 teams %>
+	  <tr><td> </td>
+		  <td><strong>Team:</strong><%= Team.find_by_id(t[0].to_i).name %><strong> Points:</strong><%= number_with_delimiter(t[1], :delimiter => ',') %></td>
+	  </tr> <% }%>
+
+  <% end %>
+  </td>
+</tr>
