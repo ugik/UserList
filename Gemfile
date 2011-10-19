@@ -12,6 +12,13 @@ group :development do
   gem 'faker', '0.3.1'
 end
 
+group :production do
+  gem 'faker', '0.3.1'
+  # gems specifically for Heroku go here
+  gem 'pg'
+  gem 'therubyracer-heroku'
+end
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
