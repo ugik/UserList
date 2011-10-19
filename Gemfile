@@ -7,13 +7,13 @@ gem 'rails', '3.1.0'
 
 gem 'sqlite3'
 gem 'mysql2'
+gem 'faker', '0.3.1'
 
 group :development do
-  gem 'faker', '0.3.1'
+
 end
 
 group :production do
-  gem 'faker', '0.3.1'
   # gems specifically for Heroku go here
   gem 'pg'
   gem 'therubyracer-heroku'
