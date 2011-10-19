@@ -1,7 +1,9 @@
 class AdminsController < ApplicationController
-
+  
   def index
     @admins = Admin.all
+
+    expire_fragment('challenges_cache')
 
     respond_to do |format|
       format.html # index.html.erb
