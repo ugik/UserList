@@ -1,7 +1,7 @@
 class AdminsController < ApplicationController
   
   def index
-    @admins = Admin.all
+    @admins = Admin.find_by_sql("SELECT * FROM admins")
 
     expire_fragment('challenges_cache')
 
