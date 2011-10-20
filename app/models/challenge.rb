@@ -3,7 +3,7 @@ class Challenge < ActiveRecord::Base
   
   self.abstract_class = true
   establish_connection :remote_console
-
+  
   has_many :teams, :foreign_key => "league_id"
   has_one :division, :foreign_key => "league_id"
 
