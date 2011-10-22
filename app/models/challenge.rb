@@ -3,13 +3,13 @@ class Challenge < ActiveRecord::Base
   
   self.abstract_class = true
   establish_connection(
-    :adapter => "mysql2"
-    :username => "gynxpFLh7"
-    :password => "MLPTFchgCvBmvWEx"
-    :host => "production-ro.ct1vjcyxovqq.us-east-1.rds.amazonaws.com"
-    :database => "FRONTEND"
-    :encoding => "utf8"
-    :reconnect => "false"
+    :adapter => "mysql2",
+    :username => "gynxpFLh7",
+    :password => "MLPTFchgCvBmvWEx",
+    :host => "production-ro.ct1vjcyxovqq.us-east-1.rds.amazonaws.com",
+    :database => "FRONTEND",
+    :encoding => "utf8",
+    :reconnect => "false",
     :pool => "5"
   )
   
