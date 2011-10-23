@@ -1,5 +1,11 @@
 <h3>Listing admins</h3>
 
+<% option = { :width => 600, :height => 240, :title => 'Company Performance' }
+@chart = GoogleVisualr::Interactive::AreaChart.new(@data_table, option) %>
+<div id='chart'></div>
+<%= render_chart(@chart, 'chart') %>
+
+
 <table>
   <tr>
     <th>Name</th>

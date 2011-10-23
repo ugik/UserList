@@ -12,7 +12,7 @@ class Challenge < ActiveRecord::Base
     :reconnect => "false",
     :pool => "5"
   )
-  
+
   has_many :teams, :foreign_key => "league_id"
   has_one :division, :foreign_key => "league_id"
 
