@@ -3,6 +3,8 @@ class Admin < ActiveRecord::Base
 
   has_many :challenges, :primary_key => "league_id", :foreign_key => "league_id"
   has_many :divisions, :primary_key => "league_id", :foreign_key => "league_id"
+  has_many :teams, :primary_key => "league_id", :foreign_key => "league_id"
+  has_many :posts, :as => :postable, :order => "updated_at DESC"
   
   attr_accessible :name, :email, :company_name, :league_id
 

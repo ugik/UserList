@@ -13,11 +13,11 @@ class Challenge < ActiveRecord::Base
     :pool => "5"
   )
 
-  has_many :teams, :foreign_key => "league_id"
-  has_one :division, :foreign_key => "league_id"
+  belongs_to :admin, :foreign_key => "league_id"
+  has_many :challenge_memberships
+  has_many :users, :through => :challenge_memberships
+  has_many :teams, :primary_key => "league_id", :foreign_key => "league_id"
 
-  attr_accessible :name, :league_id, :activation_date, :task_selection_date, :eligible_members, :splash_description
-  
   def num_teams
     self.teams.size
   end
@@ -50,6 +50,33 @@ class Challenge < ActiveRecord::Base
     @top_teams = []      # array of top team scores
     @top_teams = @team_points.sort_by {|key, value| value}.reverse!
     return @users_on_teams, @top_teams
+  end
+
+  def load_challenge_users_table(challenge_id, table)   # load registrations per day
+    @challenge = Challenge.find(challenge_id)
+    
+    table.new_column('date', 'Date' )
+    table.new_column('number', 'New') 
+    table.new_column('number', 'Total')
+
+    array = @challenge.users.count(:order => "DATE(users.created_at)", 
+                   :group => "DATE(users.created_at)"
+                   ).to_a
+    
+    i = 0
+    extended_array = array.map{ |a| i+=a[1]; a+=[i]}    # add the running total to array
+
+    logger.debug("Array First:"+ extended_array[0].to_s)
+
+    table.add_rows(extended_array)
+    @show_graph = true
+
+    # Add Rows and Values 
+#    table.add_rows([ 
+#      [Date.parse('2011-08-15'), 1000], 
+#      [Date.parse('2011-08-15'), 1170], 
+#      [Date.parse('2011-08-18'), 1230]    ])
+
   end
 
 end

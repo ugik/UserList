@@ -1,4 +1,4 @@
-class Division < ActiveRecord::Base
+class ChallengeMembership < ActiveRecord::Base
   self.abstract_class = true
   establish_connection(
     :adapter => "mysql2",
@@ -10,9 +10,10 @@ class Division < ActiveRecord::Base
     :reconnect => "false",
     :pool => "5"
   )
-  
-  belongs_to :admin, :foreign_key => "league_id"
-  has_many :users
-  has_many :teams
-    
+
+  belongs_to :challenge
+  belongs_to :user
+  validates_presence_of :challenge_id
+  validates_presence_of :user_id
+  validates_uniqueness_of :challenge_id, :scope => :user_id
 end
