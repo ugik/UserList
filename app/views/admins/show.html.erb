@@ -10,3 +10,10 @@
   <%= render @challenges %>
   </table>
 <% end %>
+
+<% if @show_graph %>
+	<% option = { :width => 650, :height => 240, :title => 'Registrations' }
+	@chart = GoogleVisualr::Interactive::AreaChart.new(@data_table, option) %>
+	<div id='chart'></div>
+	<%= render_chart(@chart, 'chart') %>
+<% end %>
