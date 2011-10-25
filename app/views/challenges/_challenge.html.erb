@@ -4,8 +4,9 @@
     <span class="content"><%= challenge.name %></span>
   </td>
   <td><strong>Start:</strong><%= challenge.activation_date %></td>
+  <td>
   <% unless challenge.eligible_members == nil %>
-     <td><strong>Eligible:</strong><%= challenge.eligible_members %></td>
+     <strong> Eligible:</strong><%= number_with_delimiter(challenge.eligible_members, :delimiter => ',') %>
   <% end %>
   <% unless challenge.teams.empty? %>
 
@@ -13,9 +14,9 @@
      @top_teams = []
      @top_teams = challenge.top_teams %>
 
-	  <td><strong>Registered:</strong><%= @admin.num_users_registered %></td>
+	  <strong>Registered:</strong><%= number_with_delimiter(@admin.num_users_registered, :delimiter => ',') %>
 
-	  <td><strong>Teams:</strong><%= challenge.num_teams %> (full:<%= challenge.full_teams %>) </td>
+	  <strong> Teams:</strong><%= challenge.num_teams %> (full:<%= challenge.full_teams %>) </td></tr>
 
 	  <% challenge.top_teams.take(5).each { |t| 		# top 5 teams %>
 	  <tr><td> </td>
@@ -35,21 +36,19 @@
 	<div id='reg-chart'></div>
 	<%= render_chart(@chart, 'reg-chart') %>
 
-</td></tr>
-
-<tr><td></td><td>
+</td><td>
 	<%  @data_table = GoogleVisualr::DataTable.new
     challenge.load_challenge_users_table(challenge.id, @data_table) %>
 
 	<%  opts   = { :displayAnnotations => true }
     @chart = GoogleVisualr::Interactive::AnnotatedTimeLine.new(@data_table, opts)  %>
 
-	<div id='annotated-chart' style='width: 600px; height: 240px;'></div>
+	<div id='annotated-chart' style='width: 500px; height: 240px;'></div>
 	<%= render_chart(@chart, 'annotated-chart') %>
 
-</td></tr>
-
-<tr><td></td><td>
+</td>
+<tr>
+<td></td><td>
 	<%  @data_table = GoogleVisualr::DataTable.new
     challenge.load_challenge_points_table(challenge.id, @data_table) %>
 
@@ -58,7 +57,16 @@
 	<div id='pts-chart'></div>
 	<%= render_chart(@chart, 'pts-chart') %>
 
-</td></tr>
+</td><td>
+	<%  @data_table = GoogleVisualr::DataTable.new
+    challenge.load_challenge_points_annotated_table(challenge.id, @data_table) %>
 
+	<%  opts   = { :displayAnnotations => true }
+    @chart = GoogleVisualr::Interactive::AnnotatedTimeLine.new(@data_table, opts)  %>
+
+	<div id='annotated-points-chart' style='width: 500px; height: 240px;'></div>
+	<%= render_chart(@chart, 'annotated-points-chart') %>
+
+</td></tr>
 
 <% end %>

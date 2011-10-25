@@ -77,7 +77,44 @@ class Challenge < ActiveRecord::Base
 
   end
 
-  def load_challenge_points_annotated_table(challenge_id, table)   # load registrations per day w/annotations
+  def load_challenge_points_table(challenge_id, table)   # load points per day
+    @challenge = Challenge.find(challenge_id)
+    
+    table.new_column('date', 'Date' )
+    table.new_column('number', 'Points') 
+
+    array = @challenge.users.count(
+                   :joins => :scores, 
+                   :order => "DATE(users.created_at) DESC", 
+                   :group => "DATE(users.created_at)",
+                   :limit => 14
+                   ).to_a.reverse!
+
+    logger.debug(">>> Points array size:"+ array.size.to_s)
+
+    table.add_rows(array)
+  end
+
+  def load_challenge_points_annotated_table(challenge_id, table)   # load registrations per day
+    @challenge = Challenge.find(challenge_id)
+    
+    table.new_column('date', 'Date' )
+    table.new_column('number', 'Points') 
+
+    array = @challenge.users.count(
+                   :joins => :scores, 
+                   :order => "DATE(users.created_at) DESC", 
+                   :group => "DATE(users.created_at)",
+                   :limit => 100
+                   ).to_a.reverse!
+
+    logger.debug(">>> Points annotated array size:"+ array.size.to_s)
+
+    table.add_rows(array)
+
+  end
+
+  def load_challenge_points_annotated_table2(challenge_id, table)   # load registrations per day w/annotations
     @challenge = Challenge.find(challenge_id)
     
     table.new_column('date', 'Date' )
@@ -95,36 +132,17 @@ class Challenge < ActiveRecord::Base
                    :limit => 14
                    ).to_a.reverse!
 
-    logger.debug(">>> Points array size:"+ array.size.to_s)
-
-    i = 0
     extended_array = []  # forge the larger array for annotated table and running total
-    array.each do |a| 
-      extended_array << a[0] << a[1] << '' << '' << a[1] << '' << ''
+    array.each do |a|
+      add_array = []
+      add_array << a[0] << a[1] << '' << '' << a[1] << '' << ''
+      extended_array << add_array
     end
 
+    logger.debug(">>> Annotated points array size:"+ extended_array.size.to_s)
     logger.debug(extended_array[0])
 
     table.add_rows(extended_array)
-
-  end
-
-
-  def load_challenge_points_table(challenge_id, table)   # load points per day
-    @challenge = Challenge.find(challenge_id)
-    
-    table.new_column('date', 'Date' )
-    table.new_column('number', 'Points') 
-
-    array = @challenge.users.count(
-                   :joins => :scores, 
-                   :order => "DATE(users.created_at) DESC", 
-                   :group => "DATE(users.created_at)",
-                   :limit => 14
-                   ).to_a.reverse!
-
-    logger.debug(">>> Points array size:"+ array.size.to_s)
-    table.add_rows(array)
-  end
+  end  
 
 end
