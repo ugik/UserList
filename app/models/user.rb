@@ -11,8 +11,6 @@ class User < ActiveRecord::Base
     :pool => "5"
   )
 
-  has_many :team_user_associations
-  has_many :teams, :through => :team_user_associations
   has_many :scores
   
 end

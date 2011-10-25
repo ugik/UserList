@@ -23,6 +23,11 @@ class Challenge < ActiveRecord::Base
   end
   memoize :num_teams
 
+  def full_teams
+    self.teams.count(:conditions => ['full'])
+  end
+  memoize :full_teams
+
   def num_users_on_teams
     @users_on_teams = 0
     self.teams.each { |t| @users_on_teams += t.users.size }
@@ -62,7 +67,7 @@ class Challenge < ActiveRecord::Base
     array = @challenge.users.count(:order => "DATE(users.created_at)", 
                    :group => "DATE(users.created_at)"
                    ).to_a
-    
+
     i = 0
     extended_array = array.map{ |a| i+=a[1]; a+=[i]}    # add the running total to array
 
@@ -72,6 +77,39 @@ class Challenge < ActiveRecord::Base
 
   end
 
+  def load_challenge_points_annotated_table(challenge_id, table)   # load registrations per day w/annotations
+    @challenge = Challenge.find(challenge_id)
+    
+    table.new_column('date', 'Date' )
+    table.new_column('number', 'Points') 
+    table.new_column('string', 'title1')
+    table.new_column('string', 'text1' )
+    table.new_column('number', 'Points')
+    table.new_column('string', 'title2')
+    table.new_column('string', 'text2' )
+
+    array = @challenge.users.count(
+                   :joins => :scores, 
+                   :order => "DATE(users.created_at) DESC", 
+                   :group => "DATE(users.created_at)",
+                   :limit => 14
+                   ).to_a.reverse!
+
+    logger.debug(">>> Points array size:"+ array.size.to_s)
+
+    i = 0
+    extended_array = []  # forge the larger array for annotated table and running total
+    array.each do |a| 
+      extended_array << a[0] << a[1] << '' << '' << a[1] << '' << ''
+    end
+
+    logger.debug(extended_array[0])
+
+    table.add_rows(extended_array)
+
+  end
+
+
   def load_challenge_points_table(challenge_id, table)   # load points per day
     @challenge = Challenge.find(challenge_id)
     
@@ -80,10 +118,11 @@ class Challenge < ActiveRecord::Base
 
     array = @challenge.users.count(
                    :joins => :scores, 
-                   :order => "DATE(users.created_at)", 
-                   :group => "DATE(users.created_at)"
-                   ).to_a
-    
+                   :order => "DATE(users.created_at) DESC", 
+                   :group => "DATE(users.created_at)",
+                   :limit => 14
+                   ).to_a.reverse!
+
     logger.debug(">>> Points array size:"+ array.size.to_s)
     table.add_rows(array)
   end

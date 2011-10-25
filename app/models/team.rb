@@ -12,6 +12,6 @@ class Team < ActiveRecord::Base
   )
     
   has_many :team_user_associations
-  has_many :users, :through => :team_user_associations
+  has_many :users, :through => :team_user_associations, :uniq => true
 
 end
