@@ -66,17 +66,26 @@ class Challenge < ActiveRecord::Base
     i = 0
     extended_array = array.map{ |a| i+=a[1]; a+=[i]}    # add the running total to array
 
-    logger.debug("Array First:"+ extended_array[0].to_s)
+    logger.debug(">>> Registration array size:"+ array.size.to_s)
 
     table.add_rows(extended_array)
-    @show_graph = true
 
-    # Add Rows and Values 
-#    table.add_rows([ 
-#      [Date.parse('2011-08-15'), 1000], 
-#      [Date.parse('2011-08-15'), 1170], 
-#      [Date.parse('2011-08-18'), 1230]    ])
+  end
 
+  def load_challenge_points_table(challenge_id, table)   # load points per day
+    @challenge = Challenge.find(challenge_id)
+    
+    table.new_column('date', 'Date' )
+    table.new_column('number', 'Points') 
+
+    array = @challenge.users.count(
+                   :joins => :scores, 
+                   :order => "DATE(users.created_at)", 
+                   :group => "DATE(users.created_at)"
+                   ).to_a
+    
+    logger.debug(">>> Points array size:"+ array.size.to_s)
+    table.add_rows(array)
   end
 
 end

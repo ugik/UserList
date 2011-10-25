@@ -25,15 +25,25 @@
   <% end %>
   </td>
 </tr>
+
 <tr><td></td><td>
 	<%  @data_table = GoogleVisualr::DataTable.new
     challenge.load_challenge_users_table(challenge.id, @data_table) %>
 
-	<% option = { :width => 650, :height => 240, :title => 'Registrations' }
+	<% option = { :width => 700, :height => 250, :title => 'Registrations' }
 	@chart = GoogleVisualr::Interactive::AreaChart.new(@data_table, option) %>
-	<div id='chart'></div>
-	<%= render_chart(@chart, 'chart') %>
+	<div id='reg-chart'></div>
+	<%= render_chart(@chart, 'reg-chart') %>
 
 </td></tr>
+<tr><td></td><td>
+	<%  @data_table = GoogleVisualr::DataTable.new
+    challenge.load_challenge_points_table(challenge.id, @data_table) %>
 
+	<% option = { :width => 700, :height => 250, :title => 'Points Earned' }
+	@chart = GoogleVisualr::Interactive::AreaChart.new(@data_table, option) %>
+	<div id='pts-chart'></div>
+	<%= render_chart(@chart, 'pts-chart') %>
+
+</td></tr>
 <% end %>
