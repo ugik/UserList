@@ -113,4 +113,25 @@ class Challenge < ActiveRecord::Base
     table.add_rows(array)
   end
 
+  def load_users_pie_table(challenge_id, table)   # load pie chart table
+    @challenge = Challenge.find(challenge_id)
+    users = @challenge.users.count
+    users_on_teams = @challenge.teams.count(:joins => :team_user_associations)
+    users_on_full_teams = @challenge.teams.count(:conditions => 'full')
+    
+    table.new_column('string', 'Users Breakdown')
+    table.new_column('number', 'Users')
+
+    table.add_rows(3)   # 3 categories: users total, users on teams, users on full teams
+    table.set_cell(0, 0, 'Not on team' )
+    table.set_cell(0, 1, (users - users_on_teams) )
+    table.set_cell(1, 0, 'On Teams' )
+    table.set_cell(1, 1, (users_on_teams - users_on_full_teams) )
+    table.set_cell(2, 0, 'On Full Teams' )
+    table.set_cell(2, 1, (users_on_full_teams) )
+
+    logger.debug(">>> ")
+
+  end
+
 end
