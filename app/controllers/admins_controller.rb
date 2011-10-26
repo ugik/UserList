@@ -14,6 +14,9 @@ class AdminsController < ApplicationController
     if session[:shown_last] == nil
       session[:shown_last] = 0
     end
+    if session[:shown_last] > session[:shown_id].size
+      session[:shown_last] = 0
+    end
 
     if params[:id] == "0"
       if session[:shown_last] == session[:shown_id].size    # cycle back
@@ -53,7 +56,8 @@ class AdminsController < ApplicationController
 
     @admin = Admin.find(params[:id])
     if @admin.update_attributes(params[:admin])
-      redirect_to @admin
+#      redirect_to @admin
+      redirect_to :action => 'index'
     else
       @title = "Edit admin"
       render 'edit'

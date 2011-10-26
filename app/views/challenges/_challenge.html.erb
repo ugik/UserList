@@ -14,18 +14,19 @@
      @top_teams = []
      @top_teams = challenge.top_teams %>
 
-	  <strong>Registered:</strong><%= number_with_delimiter(@admin.num_users_registered, :delimiter => ',') %>
+  <strong>Registered:</strong><%= number_with_delimiter(@admin.num_users_registered, :delimiter => ',') %>
+  <strong> Teams:</strong><%= challenge.num_teams %> (full:<%= challenge.full_teams %>) </td></tr>
 
-	  <strong> Teams:</strong><%= challenge.num_teams %> (full:<%= challenge.full_teams %>) </td></tr>
-
-	  <% challenge.top_teams.take(5).each { |t| 		# top 5 teams %>
-	  <tr><td> </td>
-		  <td><strong>Team:</strong><%= Team.find_by_id(t[0].to_i).name %><strong> Points:</strong><%= number_with_delimiter(t[1], :delimiter => ',') %></td>
-	  </tr> <% }%>
+<% if !session[:kiosk_mode] %>
+  <% challenge.top_teams.take(5).each { |t| 		# top 5 teams %>
+  <tr><td></td>
+  <td><strong>Team:</strong><%= Team.find_by_id(t[0].to_i).name %><strong> Points:</strong><%= number_with_delimiter(t[1], :delimiter => ',') %></td>
+  </tr> <% }%>
 
   <% end %>
   </td>
 </tr>
+<% end %>
 
 <tr><td></td><td>
 	<%  @data_table = GoogleVisualr::DataTable.new

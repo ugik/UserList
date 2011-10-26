@@ -1,9 +1,12 @@
 <% if session[:kiosk_mode] %> <META HTTP-EQUIV="REFRESH" CONTENT="10"> <% end %>
+
+<% if !session[:kiosk_mode] %>
 <p>
   <b>Name:</b>
   <%= @admin.name %><b> Email:</b>  <%= @admin.email %><br>
   <b>Company:</b>  <%= @admin.company_name %>  <b>League ID:</b>  <%= @admin.league_id %>
 </p>
+<% end %>
 
 <% unless @admin.challenges.empty? %>
   <b>Challenges</b>
