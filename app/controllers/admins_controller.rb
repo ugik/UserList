@@ -3,8 +3,6 @@ class AdminsController < ApplicationController
   
   def index
     @admins = Admin.all(:order => "league_id")
-    
-    expire_fragment('challenges_cache')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,6 +13,12 @@ class AdminsController < ApplicationController
   def show
     @admin = Admin.find(params[:id])
     @challenges = @admin.challenges
+
+    if session[:cached_id] != @admin.id           # if looking at un-cached challenge
+      expire_fragment('challenges_cache')   # expire cache
+      session[:cached_id] = @admin.id             # reset cookie
+      logger.debug("\n>>> Cached ID:"+ session[:cached_id].to_s)
+    end
 
     respond_to do |format|
       format.html # show.html.erb
