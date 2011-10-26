@@ -47,13 +47,12 @@ class AdminsController < ApplicationController
   end
 
   def edit
+    session[:shown_id] = []                       # init array of shown id crumbs
     @admin = Admin.find(params[:id])
     @title = "Edit admin #{@admin.name}"
   end
 
   def update
-    session[:shown_id] = []                       # init array of shown id crumbs
-
     @admin = Admin.find(params[:id])
     if @admin.update_attributes(params[:admin])
 #      redirect_to @admin
