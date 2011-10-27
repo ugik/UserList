@@ -1,6 +1,7 @@
 class Admin < ActiveRecord::Base
   extend ActiveSupport::Memoizable
 
+  has_many :leagues, :primary_key => "league_id"
   has_many :challenges, :primary_key => "league_id", :foreign_key => "league_id"
   has_many :divisions, :primary_key => "league_id", :foreign_key => "league_id"
   has_many :teams, :primary_key => "league_id", :foreign_key => "league_id"

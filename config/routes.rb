@@ -2,9 +2,8 @@ UserList::Application.routes.draw do
 
   resources :admins do
      collection do
-        post 'handle_something'
-        get 'handle_something'
-        get 'something'
+        post 'update_admins'
+        get 'updated_admins'
      end
   end
   

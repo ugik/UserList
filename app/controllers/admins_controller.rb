@@ -66,9 +66,38 @@ class AdminsController < ApplicationController
     end
   end
 
-  def handle_something
-    logger.debug("\n>>> Handled something")
-    redirect_to :action => 'something'
+  def update_admins
+    logger.debug("\n>>> Updating Admins")
+
+    @users = User.all(:conditions => ['admin'])   # all admin users
+    logger.debug(">>> " + @users.size.to_s + "Admins")
+    @users.each do |user|
+      division_id = user.division_id
+      league_id = Division.find_by_id(division_id).league_id
+      company_name = League.find_by_id(league_id).name
+
+      admin = Admin.find_by_email(user.email)
+      if admin == nil
+        logger.debug(">>> ...Adding Admin")
+        Admin.create(:name => user.first_name + " " + user.last_name, 
+                   :email => user.email,
+                   :encrypted_password => user.encrypted_password,
+                   :salt => user.password_salt,
+                   :league_id => league_id,
+                   :company_name => company_name )
+      else
+        logger.debug(">>> ...Updating Admin" + admin.name)
+        admin.name = user.first_name + " " + user.last_name
+        admin.email = user.email
+        admin.encrypted_password = user.encrypted_password
+        admin.salt = user.password_salt
+        admin.league_id = league_id
+        admin.company_name = company_name
+        admin.save
+      end
+    end
+    
+    redirect_to :action => 'updated_admins'
   end
   
   def handle_cache
