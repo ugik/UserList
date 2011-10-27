@@ -1,6 +1,13 @@
 UserList::Application.routes.draw do
 
-  resources :admins
+  resources :admins do
+     collection do
+        post 'handle_something'
+        get 'handle_something'
+        ger 'something'
+     end
+  end
+  
   resources :challenges
   resources :teams
   resources :users

@@ -11,6 +11,9 @@ class AdminsController < ApplicationController
   end
 
   def show
+    if session[:shown_id] == nil
+      session[:shown_id] = []                     # init array of shown id's
+    end
     if session[:shown_last] == nil
       session[:shown_last] = 0
     end
@@ -63,10 +66,12 @@ class AdminsController < ApplicationController
     end
   end
 
+  def handle_something
+    logger.debug("\n>>> Handled something")
+    redirect_to :action => 'something'
+  end
+  
   def handle_cache
-    if session[:shown_id] == nil
-      session[:shown_id] = []                     # init array of shown id's
-    end
     if session[:cached_id] != @admin.id           # if looking at un-cached challenge
       expire_fragment('challenges_cache')         # expire cache
       session[:cached_id] = @admin.id             # reset cookie
