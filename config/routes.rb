@@ -4,7 +4,7 @@ UserList::Application.routes.draw do
      collection do
         post 'handle_something'
         get 'handle_something'
-        ger 'something'
+        get 'something'
      end
   end
   
