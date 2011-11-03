@@ -7,7 +7,7 @@ UserList::Application.routes.draw do
         get 'updated_admins'
      end
   end
-  
+
   resources :challenges
   resources :teams
   resources :users
