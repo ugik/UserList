@@ -86,8 +86,7 @@ class Challenge < ActiveRecord::Base
     array = @challenge.users.count(
                    :joins => :scores, 
                    :order => "DATE(scores.earned_at) DESC", 
-                   :group => "DATE(scores.earned_at)",
-                   :limit => 14
+                   :group => "DATE(scores.earned_at)"
                    ).to_a.reverse!
 
     logger.debug(">>> Points array size:"+ array.size.to_s)
@@ -104,8 +103,7 @@ class Challenge < ActiveRecord::Base
     array = @challenge.users.count(
                    :joins => :scores, 
                    :order => "DATE(scores.earned_at) DESC", 
-                   :group => "DATE(scores.earned_at)",
-                   :limit => 200
+                   :group => "DATE(scores.earned_at)"
                    ).to_a.reverse!
 
     logger.debug(">>> Points annotated array size:"+ array.size.to_s)

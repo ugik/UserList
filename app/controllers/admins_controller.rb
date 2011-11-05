@@ -4,6 +4,8 @@ class AdminsController < ApplicationController
   def index
     @admins = Admin.all(:order => "league_id")
 
+    logger.debug("\n I'm HERE!!!")
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @admins }
